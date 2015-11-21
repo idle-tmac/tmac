@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-        "encoding/json"
-        "fmt"
+        "tmac/lib"
+        _"fmt"
 )
 
 type DatingController struct {
@@ -11,14 +11,7 @@ type DatingController struct {
 }
 
 func (c *DatingController) Get() {
-        
         msg := c.Ctx.Input.Param(":msg")
-        id := c.Ctx.Input.Param(":id")
-        idInfo := map[string]string{} 
-        idInfo[id] = msg
-        b, err := json.Marshal(idInfo)
-        if err != nil {
-                fmt.Println("error", err)
-        }
-        c.Ctx.WriteString(string(b))
+        way := c.Ctx.Input.Param(":way")
+        lib.Call(datingFuncs, way, msg, c)
 }

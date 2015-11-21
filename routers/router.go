@@ -7,5 +7,5 @@ import (
 
 func init() {
     beego.Router("/", &controllers.MainController{})
-    beego.Router("/dating/:id&:msg", &controllers.DatingController{})
+    beego.Router("/dating/:way&:msg", &controllers.DatingController{})
 }
