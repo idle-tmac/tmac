@@ -2,9 +2,11 @@ package lib
 
 import (
 	"reflect"
-	_ "fmt"
-
+	_"fmt"
+    "tmac/common"
+    "strconv" 
 )
+
 func Call(m map[string]interface{}, name string, params ... interface{}) (result []reflect.Value) {
     
     f := reflect.ValueOf(m[name])
@@ -16,3 +18,11 @@ func Call(m map[string]interface{}, name string, params ... interface{}) (result
     return
 
 }
+
+func ComputeDtPushKey(dtid int64,timestamp int64) (key string) {
+	datingid := strconv.FormatInt(dtid,10)
+    timestampStr := strconv.FormatInt(timestamp,10)
+    return strconv.Itoa(common.DATINGTALK) + datingid + timestampStr
+}
+
+
