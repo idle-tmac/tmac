@@ -18,6 +18,7 @@ var datingFuncs = map[string]interface{} {"push":PushDating}
 
 func PushDating(msgPush string, c *DatingController) {
       
+      fmt.Println("hello");
       /*mes := &common.DatingPushMsg{Datingid:int64(5), Uid:int64(123), Text:"hello"}
       msgPush1, _ := json.Marshal(mes); 
       msgPush = string(msgPush1)
