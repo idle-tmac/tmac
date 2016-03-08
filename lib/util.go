@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+	"path"
 )
 
 func Call(m map[string]interface{}, name string, params ... interface{}) (result []reflect.Value) {
@@ -46,3 +47,15 @@ func ListDir(dirPth string, prefix string) (files []string, err error) {
     	}
     	return files, nil
 }
+func GetFileName(filePath string) (filename string) {
+    	filenameWithSuffix := path.Base(filePath)
+    	fileSuffix := path.Ext(filenameWithSuffix)
+    	filename = strings.TrimSuffix(filenameWithSuffix, fileSuffix)
+	return
+}
+/*func EncodeImageBase64(imagePath string) (encodeStr string) {
+	f, err := os.Open(imagePath)
+ 	fbytes := ioutil.ReadAll(f)
+	base64.StdEncoding.Encode(base64Bytes, fbytes) //buff转成base64
+	return string(base64Bytes)
+}*/

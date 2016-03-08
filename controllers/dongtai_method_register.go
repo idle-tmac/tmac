@@ -13,7 +13,7 @@ import (
 )
 
 
-//dongtai all function register
+//dongtai recommend function register
 var dongtaiFuncs = map[string]interface{} {
-	"all_cells":ReqAllCells,
+	"recommend_cells":ReqRecommendCells,
 }
