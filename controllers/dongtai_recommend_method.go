@@ -50,3 +50,11 @@ func ReqRecommendCells(timeStamp string, c *DongtaiController) {
         }
 	c.Ctx.WriteString(string(b));
 }
+func ReqRecommendCell(ticket string, c *DongtaiController) {
+	c.Data["Website"] = "campus basketball"
+	c.Data["Email"] = "dreamer4@dream.com"
+	imagePath := imageRecommendDir + "/1234567_1.jpg"
+	encodeStr := lib.EncodeImageBase64(imagePath);
+	c.Data["Testimage"] = encodeStr
+	c.TplName = ticket + ".tpl"
+}

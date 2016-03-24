@@ -16,4 +16,5 @@ import (
 //dongtai recommend function register
 var dongtaiFuncs = map[string]interface{} {
 	"recommend_cells":ReqRecommendCells,
+	"recommend_cell":ReqRecommendCell,
 }

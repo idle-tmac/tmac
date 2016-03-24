@@ -9,6 +9,7 @@ import (
 	"os"
 	"strings"
 	"path"
+	"encoding/base64"
 )
 
 func Call(m map[string]interface{}, name string, params ... interface{}) (result []reflect.Value) {
@@ -53,9 +54,9 @@ func GetFileName(filePath string) (filename string) {
     	filename = strings.TrimSuffix(filenameWithSuffix, fileSuffix)
 	return
 }
-/*func EncodeImageBase64(imagePath string) (encodeStr string) {
-	f, err := os.Open(imagePath)
- 	fbytes := ioutil.ReadAll(f)
-	base64.StdEncoding.Encode(base64Bytes, fbytes) //buff转成base64
-	return string(base64Bytes)
-}*/
+
+func EncodeImageBase64(imagePath string) (encodeStr string) {
+	ff, _ := ioutil.ReadFile(imagePath)
+	fbytes := base64.StdEncoding.EncodeToString(ff)
+	return string(fbytes)
+}
