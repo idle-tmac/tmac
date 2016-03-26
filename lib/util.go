@@ -2,7 +2,8 @@ package lib
 
 import (
 	"reflect"
-	_"fmt"
+	"fmt"
+	"io"
 	"tmac/common"
 	"strconv" 
 	"io/ioutil"
@@ -29,7 +30,8 @@ func ComputeDtPushKey(dtid int64,timestamp int64) (key string) {
 	return strconv.Itoa(common.DATINGTALK) + datingid + timestampStr
 }
 
-//获取指定目录下的所有文件，不进入下一级目录搜索，可以匹配后缀过滤。
+
+//file and directory operate
 func ListDir(dirPth string, prefix string) (files []string, err error) {
 	files = make([]string, 0, 10)
 	dir, err := ioutil.ReadDir(dirPth)
@@ -37,12 +39,12 @@ func ListDir(dirPth string, prefix string) (files []string, err error) {
 		return nil, err
 	}
 	PthSep := string(os.PathSeparator)
-	prefix = strings.ToUpper(prefix) //忽略后缀匹配的大小写 
+	prefix = strings.ToUpper(prefix) 
 	for _, fi := range dir {
-		if fi.IsDir() { // 忽略目录
+		if fi.IsDir() { 
 			continue
 		}
-        	if strings.HasPrefix(strings.ToUpper(fi.Name()), prefix) { //匹配文件
+        	if strings.HasPrefix(strings.ToUpper(fi.Name()), prefix) { 
             		files = append(files, dirPth+PthSep+fi.Name())
         	}
     	}
@@ -55,8 +57,30 @@ func GetFileName(filePath string) (filename string) {
 	return
 }
 
+func ReadFile(filePath string)([]byte, error) {
+	f, err := os.Open(filePath)
+	if err != nil {
+		return nil, err
+	}	
+	return ioutil.ReadAll(f)
+}
+func WriteFile(filePath string, text string) {
+	f, err := os.Create(filePath)
+	defer f.Close()
+	check(err)
+	n, err1 := io.WriteString(f, text)
+	check(err1)
+	fmt.Println("write %d bytes", n)
+}
+
+//other
 func EncodeImageBase64(imagePath string) (encodeStr string) {
 	ff, _ := ioutil.ReadFile(imagePath)
 	fbytes := base64.StdEncoding.EncodeToString(ff)
 	return string(fbytes)
+}
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
 }

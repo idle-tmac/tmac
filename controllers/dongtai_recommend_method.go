@@ -15,6 +15,7 @@ import (
 )
 
 var imageRecommendDir string
+var imageBase64RecommendDir string
 var baseDir string
 var imageServer string
 var platformServer string
@@ -29,6 +30,7 @@ func init() {
     		fmt.Println("get current directory error=%s\n", err)
 	}
 	imageRecommendDir = fmt.Sprintf("%s/resource/dongtai/images/recommend", baseDir)
+	imageBase64RecommendDir = fmt.Sprintf("%s/resource/dongtai/imagesbase64/recommend", baseDir)
 }
 
 func ReqRecommendCells(timeStamp string, c *DongtaiController) {
@@ -51,10 +53,13 @@ func ReqRecommendCells(timeStamp string, c *DongtaiController) {
 	c.Ctx.WriteString(string(b));
 }
 func ReqRecommendCell(ticket string, c *DongtaiController) {
+
 	c.Data["Website"] = "campus basketball"
 	c.Data["Email"] = "dreamer4@dream.com"
-	imagePath := imageRecommendDir + "/1234567_1.jpg"
+	imagePath := imageRecommendDir + "/" + ticket + ".jpg"
 	encodeStr := lib.EncodeImageBase64(imagePath);
+	imageBase64Path := imageBase64RecommendDir + "/" + ticket + ".base64"
+	lib.WriteFile(imageBase64Path, encodeStr)
 	c.Data["Testimage"] = encodeStr
 	c.TplName = ticket + ".tpl"
 }
