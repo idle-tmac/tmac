@@ -1,6 +1,7 @@
 package controllers 
 import (
 	"fmt"
+	"github.com/astaxie/beego"
 	"strings"
         _"tmac/common"
         _"tmac/models"
@@ -20,9 +21,12 @@ var baseDir string
 var imageServer string
 var platformServer string
 
-func init() {
-	imageServer = "http://115.159.101.179:8080";
-	platformServer = "http://115.159.101.179:10086"
+func init() {	
+	serverip := beego.AppConfig.String("serverip")
+	image_server_port := beego.AppConfig.String("image_server_port")
+	platform_server_port := beego.AppConfig.String("platform_server_port")
+	imageServer = "http://" + serverip + ":" + image_server_port;
+	platformServer = "http://" + serverip + ":" + platform_server_port;
 	var err error
 	baseDir, err = os.Getwd()
 	fmt.Println(baseDir)
