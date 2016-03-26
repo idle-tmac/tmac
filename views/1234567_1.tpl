@@ -31,7 +31,7 @@
       background-image: url('data:image/png;base64,{{.Testimage}}');
       background-repeat: no-repeat;
       -webkit-background-size: 100px 100px;
-      background-size: 100px 100px;
+      background-size: 500px 300px;
       background-position: center center;
       text-align: center;
       font-size: 42px;
@@ -75,9 +75,9 @@
 
 <body>
   <header>
-    <h1 class="logo">Welcome to Beego</h1>
+    <h1 class="logo">Welcome to Campus basketball</h1>
     <div class="description">
-      Beego is a simple & powerful Go web framework which is inspired by tornado and sinatra.
+      Campus basketball is created by four young people to impove the communication among different schoools and students.
     </div>
   </header>
   <footer>

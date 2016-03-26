@@ -73,6 +73,13 @@ func WriteFile(filePath string, text string) {
 	fmt.Println("write %d bytes", n)
 }
 
+
+//suanfa fuction 
+func GetNextImages(imageRecommendDir string, ticket string) (files []string, err error){ 
+
+	files, err = ListDir(imageRecommendDir, "1234567");
+    	return files, nil
+}
 //other
 func EncodeImageBase64(imagePath string) (encodeStr string) {
 	ff, _ := ioutil.ReadFile(imagePath)
@@ -84,3 +91,6 @@ func check(e error) {
 		panic(e)
 	}
 }
+
+
+

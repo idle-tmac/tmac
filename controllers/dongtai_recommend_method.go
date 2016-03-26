@@ -24,7 +24,7 @@ var platformServer string
 func init() {	
 	serverip := beego.AppConfig.String("serverip")
 	image_server_port := beego.AppConfig.String("image_server_port")
-	platform_server_port := beego.AppConfig.String("platform_server_port")
+	platform_server_port := beego.AppConfig.String("httpport")
 	imageServer = "http://" + serverip + ":" + image_server_port;
 	platformServer = "http://" + serverip + ":" + platform_server_port;
 	var err error
@@ -37,19 +37,25 @@ func init() {
 	imageBase64RecommendDir = fmt.Sprintf("%s/resource/dongtai/imagesbase64/recommend", baseDir)
 }
 
-func ReqRecommendCells(timeStamp string, c *DongtaiController) {
-        curImages, err := lib.ListDir(imageRecommendDir, timeStamp);
+func ReqRecommendCells(ticket string, c *DongtaiController) {
+        //curImages, err := lib.ListDir(imageRecommendDir, ticket);
+        curImages, err := lib.GetNextImages(imageRecommendDir, ticket);
 	cells := []map[string]string{}
+	var filename string
         for _, image := range curImages {
 		cell := map[string]string{}
 	        imageAddress := fmt.Sprintf("%s", strings.TrimPrefix(image, baseDir))
-		filename := lib.GetFileName(image)
+		filename = lib.GetFileName(image)
 		fmt.Println(filename);
 		cell["image_address"] = imageServer + imageAddress
 		cell["image_content"] = platformServer + "/dongtai/recommend&cell&" + filename
-		cell["ticket"] = filename
 		cells = append(cells, cell)	
         }
+
+	cell := map[string]string{}
+	cell["ticket"] = filename
+	cells = append(cells, cell)
+
         b, err := json.Marshal(cells)
         if err != nil {
                 fmt.Println("error", err)
@@ -65,5 +71,6 @@ func ReqRecommendCell(ticket string, c *DongtaiController) {
 	imageBase64Path := imageBase64RecommendDir + "/" + ticket + ".base64"
 	lib.WriteFile(imageBase64Path, encodeStr)
 	c.Data["Testimage"] = encodeStr
-	c.TplName = ticket + ".tpl"
+	//c.TplName = ticket + ".tpl"
+	c.TplName = "1234567_1.tpl"
 }
