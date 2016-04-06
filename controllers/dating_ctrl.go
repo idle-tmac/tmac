@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/astaxie/beego"
         "tmac/lib"
-        _"fmt"
+        "fmt"
 )
 
 type DatingController struct {
@@ -13,5 +13,7 @@ type DatingController struct {
 func (c *DatingController) Get() {
         msg := c.Ctx.Input.Param(":msg")
         way := c.Ctx.Input.Param(":way")
-        lib.Call(datingFuncs, way, msg, c)
+        flag := c.Ctx.Input.Param(":flag")
+	fmt.Println("----\n" + flag)
+        lib.Call(datingFuncs, way, msg, flag, c)
 }

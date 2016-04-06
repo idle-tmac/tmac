@@ -1,28 +1,28 @@
 package controllers 
 import (
-	    "fmt"
-        "tmac/common"
-        "tmac/models"
-        "tmac/lib"
-        "encoding/json"
+	"fmt"
+        _"tmac/common"
+        _"tmac/lib"
+        _"encoding/json"
         _"strconv"
         _"github.com/astaxie/beego/cache"
         _"github.com/astaxie/beego/cache/redis" 
         _"log" 
-        "time"
+        _"time"
 )
 
 
 //dating function register
 var datingFuncs = map[string]interface{} {"push":PushDating}
 
-func PushDating(msgPush string, c *DatingController) {
+func PushDating(msgPush string, flag string, c *DatingController) {
       
-      fmt.Println("hello");
+      fmt.Println(msgPush);
+      fmt.Println(flag);
       /*mes := &common.DatingPushMsg{Datingid:int64(5), Uid:int64(123), Text:"hello"}
       msgPush1, _ := json.Marshal(mes); 
       msgPush = string(msgPush1)
-	  fmt.Println(string(msgPush));*/
+	  fmt.Println(string(msgPush));
       
       var dtPushMsg common.DatingPushMsg;
       err := json.Unmarshal([]byte(msgPush), &dtPushMsg)
@@ -44,7 +44,8 @@ func PushDating(msgPush string, c *DatingController) {
       }
 
       redis := models.GetRedisInstance()
-      redis.Put("lhy",inputJson,10);
+      redis.Put("lhy",inputJson,10);*/
+      inputJson := msgPush
       c.Ctx.WriteString(string(inputJson));
 
 }

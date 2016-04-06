@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-        "tmac/lib"
+        _"tmac/lib"
         "fmt"
 )
 
@@ -10,7 +10,7 @@ type DongtaiController struct {
 	beego.Controller
 }
 
-func (c *DongtaiController) Get() {
+/*func (c *DongtaiController) Get() {
         
 	module := c.Ctx.Input.Param(":module")
         reqWay := c.Ctx.Input.Param(":way")
@@ -18,7 +18,7 @@ func (c *DongtaiController) Get() {
 	moduleReqWay := fmt.Sprintf("%s_%s", module, reqWay)
         lib.Call(dongtaiFuncs, moduleReqWay, content, c)
 
-}
+}*/
 func (this *DongtaiController) Post() {
     module := this.GetString("module")
     way := this.GetString("way")

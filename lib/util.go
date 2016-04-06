@@ -4,6 +4,7 @@ import (
 	"reflect"
 	"fmt"
 	"io"
+	"time"
 	"tmac/common"
 	"strconv" 
 	"io/ioutil"
@@ -13,6 +14,7 @@ import (
 	"encoding/base64"
 )
 
+	
 func Call(m map[string]interface{}, name string, params ... interface{}) (result []reflect.Value) {
     
 	f := reflect.ValueOf(m[name])
@@ -30,22 +32,49 @@ func ComputeDtPushKey(dtid int64,timestamp int64) (key string) {
 	return strconv.Itoa(common.DATINGTALK) + datingid + timestampStr
 }
 
+func LoadResource(imageDirs []string) {
+	var dir_files map[string] []string
+	dir_files = make(map[string] []string)
+	var files []string
+	for _, imageDir := range imageDirs {
+        	files, _ = ListFile(imageDir, "")
+		//fmt.Println(imageDir)
+		//fmt.Println(files)
+		dir_files[imageDir] = files
+	}
+	//fmt.Println(dir_files);
+}
+
 
 //file and directory operate
-func ListDir(dirPth string, prefix string) (files []string, err error) {
+func ListDir(dirPth string) (files []string, err error) {
 	files = make([]string, 0, 10)
 	dir, err := ioutil.ReadDir(dirPth)
 	if err != nil {
 		return nil, err
 	}
-	PthSep := string(os.PathSeparator)
+	for _, fi := range dir {
+		if fi.IsDir() { 
+            		files = append(files, fi.Name())
+		}
+	}	
+    	return files, nil
+}
+
+func ListFile(dirPth string, prefix string) (files []string, err error) {
+	files = make([]string, 0, 10)
+	dir, err := ioutil.ReadDir(dirPth)
+	if err != nil {
+		return nil, err
+	}
+	//PthSep := string(os.PathSeparator)
 	prefix = strings.ToUpper(prefix) 
 	for _, fi := range dir {
 		if fi.IsDir() { 
 			continue
 		}
         	if strings.HasPrefix(strings.ToUpper(fi.Name()), prefix) { 
-            		files = append(files, dirPth+PthSep+fi.Name())
+			files = append(files, fi.Name())
         	}
     	}
     	return files, nil
@@ -57,13 +86,11 @@ func GetFileName(filePath string) (filename string) {
 	return
 }
 
-func ReadFile(filePath string)([]byte, error) {
-	f, err := os.Open(filePath)
-	if err != nil {
-		return nil, err
-	}	
-	return ioutil.ReadAll(f)
+func ReadFile(filePath string)(b []byte) {
+	br, _ := ioutil.ReadFile(filePath)
+	return br 
 }
+
 func WriteFile(filePath string, text string) {
 	f, err := os.Create(filePath)
 	defer f.Close()
@@ -75,9 +102,34 @@ func WriteFile(filePath string, text string) {
 
 
 //suanfa fuction 
-func GetNextImages(imageRecommendDir string, ticket string) (files []string, err error){ 
-
-	files, err = ListDir(imageRecommendDir, "1234567");
+func GetNextImages(images []string, ticket string, flag string, cnt string) (files []string, err error){ 
+	var start int;
+	var end int;
+	var num int;
+	
+	stamp_index := strings.Split(ticket, "_") 
+	start, _ = strconv.Atoi(stamp_index[1]);
+	num, _ = strconv.Atoi(cnt);
+	//fmt.Println(ticket);
+	//fmt.Println(flag);
+	//fmt.Println(cnt);
+	//fmt.Println(images);
+	//fmt.Println(start);
+	if flag == "0" {
+		end = start + num;
+		if end > len(images) {
+			end = len(images)
+		}
+	} else {
+		end = start -1
+		start = end - num
+		if start < 0 {
+			start = 0;
+		}
+	}
+	//fmt.Println(start);
+     	files = images[start:end]
+     	//files = images[0:1]
     	return files, nil
 }
 //other
@@ -92,5 +144,10 @@ func check(e error) {
 	}
 }
 
-
+func GetTime(diff int64) (time_str string) {
+	timestamp := time.Now().Unix() + diff
+        tm := time.Unix(timestamp, 0)
+        time_str = tm.Format("2006-01-02 15:04:05")
+	return time_str
+}
 

@@ -2,7 +2,6 @@ package controllers
 import (
 	_"fmt"
         _"tmac/common"
-        _"tmac/models"
         _"tmac/lib"
         _"encoding/json"
         _"strconv"
@@ -15,6 +14,6 @@ import (
 
 //dongtai recommend function register
 var dongtaiFuncs = map[string]interface{} {
-	"recommend_cells":ReqRecommendCells,
-	"recommend_cell":ReqRecommendCell,
+//	"recommend_cells":ReqRecommendCells,
+//	"recommend_cell":ReqRecommendCell,
 }
