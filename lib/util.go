@@ -110,11 +110,6 @@ func GetNextImages(images []string, ticket string, flag string, cnt string) (fil
 	stamp_index := strings.Split(ticket, "_") 
 	start, _ = strconv.Atoi(stamp_index[1]);
 	num, _ = strconv.Atoi(cnt);
-	//fmt.Println(ticket);
-	//fmt.Println(flag);
-	//fmt.Println(cnt);
-	//fmt.Println(images);
-	//fmt.Println(start);
 	if flag == "0" {
 		end = start + num;
 		if end > len(images) {
@@ -127,9 +122,7 @@ func GetNextImages(images []string, ticket string, flag string, cnt string) (fil
 			start = 0;
 		}
 	}
-	//fmt.Println(start);
      	files = images[start:end]
-     	//files = images[0:1]
     	return files, nil
 }
 //other
@@ -138,6 +131,15 @@ func EncodeImageBase64(imagePath string) (encodeStr string) {
 	fbytes := base64.StdEncoding.EncodeToString(ff)
 	return string(fbytes)
 }
+func base64Encode(data string) (base64_data string){
+	sEnc := base64.StdEncoding.EncodeToString([]byte(data))
+	return sEnc
+}
+func base64Decode(data string) (base64_data string){
+	sDec, _ := base64.StdEncoding.DecodeString(data)
+	return string(sDec)
+}
+
 func check(e error) {
 	if e != nil {
 		panic(e)
