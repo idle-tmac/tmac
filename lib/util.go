@@ -131,11 +131,11 @@ func EncodeImageBase64(imagePath string) (encodeStr string) {
 	fbytes := base64.StdEncoding.EncodeToString(ff)
 	return string(fbytes)
 }
-func base64Encode(data string) (base64_data string){
+func Base64Encode(data string) (base64_data string){
 	sEnc := base64.StdEncoding.EncodeToString([]byte(data))
 	return sEnc
 }
-func base64Decode(data string) (base64_data string){
+func Base64Decode(data string) (base64_data string){
 	sDec, _ := base64.StdEncoding.DecodeString(data)
 	return string(sDec)
 }
