@@ -18,4 +18,5 @@ func init() {
 
     //league route
     beego.Router("/league/inschool/cells/:schoolid&:num&:ticket", &controllers.LeagueController{}, "get:ReqinSchoolLeagueCells")
+    beego.Router("/league/inschool/cell/:schoolid&:leagueid", &controllers.LeagueController{}, "get:ReqinSchoolLeagueCell")
 }

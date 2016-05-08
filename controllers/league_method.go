@@ -105,25 +105,36 @@ func (c *LeagueController) ReqinSchoolLeagueCells(){
 
 	c.Ctx.WriteString(string(b));
 }
-/*
-func (c *LeagueController) ReqRecommendCell() {
-	module := c.Ctx.Input.Param(":module")
-        imagename := c.Ctx.Input.Param(":imagename")
 
-     	//fmt.Println(module)
-	
-	c.Data["Website"] = "campus basketball"
-	c.Data["Email"] = "dreamer4@dream.com"
-	imagePath := imageDir + "/" + module + "/" + imagename
-	//fmt.Println(imagePath)
-	filename := lib.GetFileName(imagename)
-	encodeStr := lib.EncodeImageBase64(imagePath);
-	imageBase64Path := imageBase64Dir + "/" + module + "/" + filename + ".base64"
-	
-	//fmt.Println(imageBase64Path)
-	lib.WriteFile(imageBase64Path, encodeStr)
-	//encodeStr := string(lib.ReadFile(imageBase64Path))
-	c.Data["Testimage"] = encodeStr
-	c.TplName = "1234567_1.tpl"
+func (c *LeagueController) ReqinSchoolLeagueCell(){
+	schoolid := c.Ctx.Input.Param(":schoolid")
+       	leagueid := c.Ctx.Input.Param(":leagueid")
+     	fmt.Println(schoolid)
+	mydb := models.GetMysqlInstance()
+	db := mydb.GetDb()
+	qSql := "select team_fans from league where schoolid = ? and leagueid = ?"
+	rows, err := db.Query(qSql, schoolid, leagueid)
+	if err != nil {
+		log.Println(err)
+	}
+ 
+	defer rows.Close()
+	var team_fans int
+	cell := map[string]string{}
+	//cells := []map[string]string{}
+	for rows.Next() {
+		err := rows.Scan(&team_fans)
+		if err != nil {
+			log.Fatal(err)
+		}
+		
+		cell["league_fans_num"]	= strconv.Itoa(team_fans)
+	}
+        
+	b, err := json.Marshal(cell)
+        if err != nil {
+                fmt.Println("error", err)
+        }
+
+	c.Ctx.WriteString(string(b));
 }
-*/
