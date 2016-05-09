@@ -3,11 +3,11 @@ import (
 	"fmt"
 	_"github.com/astaxie/beego"
 	_"strings"
-        _"tmac/common"
+        "tmac/common"
         "tmac/models"
         "tmac/lib"
         _"encoding/json"
-        _"strconv"
+        "strconv"
         _"github.com/astaxie/beego/cache"
         _"github.com/astaxie/beego/cache/redis" 
         "log" 
@@ -45,10 +45,16 @@ func (c *LoginController) LoginCheck(){
 	}
        
 	cell := map[string]string{}
-	ret := isUser && (lib.Base64Encode(passwd) == lib.Base64Encode(passwdb))
-	if ret {
-		cell["schoolid"] = schoolno
+	cell["type"] = strconv.Itoa(common.USERNOEXIST)
+	if isUser {
+		cell["type"] = strconv.Itoa(common.USERWRONGPASSWD)
+		if (lib.Base64Encode(passwd) == lib.Base64Encode(passwdb)) {
+			cell["schoolid"] = schoolno
+			//judge has other info or cell["type"] = strconv.Itoa(common.USERLESSINFO)
+			cell["type"] = strconv.Itoa(common.USERPERFECT)
+		}
 	}
+	
 	b, err := json.Marshal(cell)
         if err != nil {
                 fmt.Println("error", err)

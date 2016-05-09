@@ -5,3 +5,10 @@ const (
         SINGLETALK
         TEAMTALK
 )
+
+const (
+        USERNOEXIST = iota
+        USERWRONGPASSWD
+        USERPERFECT
+	USERLESSINFO
+)
