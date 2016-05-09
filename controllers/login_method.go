@@ -49,9 +49,11 @@ func (c *LoginController) LoginCheck(){
 	if isUser {
 		cell["type"] = strconv.Itoa(common.USERWRONGPASSWD)
 		if (lib.Base64Encode(passwd) == lib.Base64Encode(passwdb)) {
+			cell["type"] = strconv.Itoa(common.USERLESSINFO)
 			cell["schoolid"] = schoolno
-			//judge has other info or cell["type"] = strconv.Itoa(common.USERLESSINFO)
-			cell["type"] = strconv.Itoa(common.USERPERFECT)
+			if schoolno != "" {
+				cell["type"] = strconv.Itoa(common.USERPERFECT)
+			}
 		}
 	}
 	
