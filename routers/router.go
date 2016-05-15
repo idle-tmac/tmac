@@ -11,7 +11,7 @@ func init() {
     beego.Router("/dating/:way&:msg", &controllers.DatingController{})
 
     //login and register
-    beego.Router("/login/:phone&:passwd", &controllers.LoginController{}, "get:LoginCheck")
+    beego.Router("/login/:loginway&:value&:passwd", &controllers.LoginController{}, "get:LoginCheck")
 
 
     //dongtai route

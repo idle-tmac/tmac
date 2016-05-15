@@ -18,15 +18,17 @@ func init() {
 }
 
 func (c *LoginController) LoginCheck(){
-	phone := c.Ctx.Input.Param(":phone")
+	loginway := c.Ctx.Input.Param(":loginway")
+	loginvalue := c.Ctx.Input.Param(":value")
         passwd := c.Ctx.Input.Param(":passwd")
-     	fmt.Println(phone)
+     	fmt.Println(loginvalue)
      	fmt.Println(passwd)
 
 	mydb := models.GetMysqlInstance()
 	db := mydb.GetDb()
-	qSql := "select passwd,schoolno from user where phone = ?"
-	rows, err := db.Query(qSql, phone)
+	qSql := fmt.Sprintf("select passwd,schoolno from user where %s = ?", loginway)
+	fmt.Println(qSql)
+	rows, err := db.Query(qSql, loginvalue)
 	if err != nil {
 		log.Println(err)
 	}
