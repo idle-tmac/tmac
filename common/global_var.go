@@ -7,7 +7,7 @@ const (
 )
 
 const (
-        USERNOEXIST = iota
+        USERNOEXIST = iota + 10000
         USERWRONGPASSWD
         USERPERFECT
 	USERLESSINFO
