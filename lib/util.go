@@ -153,3 +153,15 @@ func GetTime(diff int64) (time_str string) {
 	return time_str
 }
 
+func JudgePasswd(passwd1 string, passwd2 string) (int) {
+	var Type int
+	Type = common.PASSWDDIFFERROR
+	if passwd1 == passwd2 {
+		if len(passwd1) < 6 {
+			Type = common.PASSWDLENGTHERROR
+		} else {
+			Type = common.PASSWDOK
+		}
+	}	
+	return Type
+}

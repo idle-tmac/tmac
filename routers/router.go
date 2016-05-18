@@ -10,7 +10,11 @@ func init() {
     beego.Router("/dating/:way&:msg&:flag", &controllers.DatingController{})
     beego.Router("/dating/:way&:msg", &controllers.DatingController{})
 
-    //login and register
+    //register
+    beego.Router("/register/verifycode/:phone&:verifycode", &controllers.RegisterController{}, "get:RegisterDeal")
+    beego.Router("/register/userinfo/:phone&:passwd1&:passwd2", &controllers.RegisterController{}, "get:RegisterPasswdUpLoad")
+    
+    //login
     beego.Router("/login/:loginway&:value&:passwd", &controllers.LoginController{}, "get:LoginCheck")
 
 

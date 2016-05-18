@@ -26,33 +26,31 @@ func GetMysqlInstance() (*MysqlBase){
    	return mysqlBase;
 }
 
-func (this *MysqlBase)insert(inSql string, args ...interface{}) {
+func (this *MysqlBase)Insert(inSql string, args ...interface{}) bool{
 	
 	stmt, err := this.DB.Prepare(inSql)
 	defer stmt.Close()
  
 	if err != nil {
 		log.Println(err)
-		return
+		return false
 	}
-	stmt.Exec(args...)
+	ret, _:= stmt.Exec(args...)
+	if ret == nil {
+		return false
+        }
+        return true
 } 
 func (this *MysqlBase)GetDb()(*sql.DB){
 	return this.DB;
 }
-/*func (this *MysqlBase)get_data(qSql string, args ...interface{}){
-	rows, err := this.DB.Query(qSql, args...)
-	if err != nil {
-		log.Println(err)
-	}
-	//defer rows.Close()
-	return rows
-} 
+
+/*
 func main() {
 	mydb := GetMysqlInstance()
-	inSql := "INSERT INTO dongtai_news(newsid, imageid, title, create_time) VALUES(?, ?, ?, ?)"
-	mydb.insert(inSql, 1, 1, "text", "2016-02-13 00:00:00") 
-
+	inSql := "INSERT INTO dongtai_news(id, imageid, title, create_time) VALUES(?, ?, ?, ?)"
+	ret := mydb.insert(inSql, 1, 1, "text", "2016-02-13 00:00:00") 
+	fmt.Println(ret)
 	qSql := "select id,title from dongtai_news where id = ?" 
 	db := mydb.getDb()
 	rows, err := db.Query(qSql, 1)
@@ -75,4 +73,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}	
-}*/
+}
+
+*/

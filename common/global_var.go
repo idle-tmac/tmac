@@ -12,3 +12,10 @@ const (
         USERPERFECT
 	USERLESSINFO
 )
+
+const (
+        PASSWDDIFFERROR = iota + 20000
+        PASSWDLENGTHERROR
+        PASSWDOK
+	PASSWDINSERTERROR
+)
