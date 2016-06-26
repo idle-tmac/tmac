@@ -101,6 +101,15 @@ func WriteFile(filePath string, text string) {
 }
 
 
+func GetInfoByTicket(ticket string) (tickteinfo []string) {
+	stamp_newid := strings.Split(ticket, "_")
+	t := stamp_newid[0]
+        stamp := t[0:4] + "-" + t[4:6] + "-" + t[6:8] + " " + t[8:10] + ":" + t[10:12] + ":" + t[12:14];
+	newid := stamp_newid[1];
+	tickteinfo = append(tickteinfo, stamp)
+	tickteinfo = append(tickteinfo, newid)
+	return tickteinfo;
+}
 //suanfa fuction 
 func GetNextImages(images []string, ticket string, flag string, cnt string) (files []string, err error){ 
 	var start int;
@@ -164,4 +173,12 @@ func JudgePasswd(passwd1 string, passwd2 string) (int) {
 		}
 	}	
 	return Type
+}
+func MakeTicket(time string, id string) (ticket string){
+
+	time1 := strings.Replace(time, "-", "", 2)
+	time2 := strings.Replace(time1, ":", "", 2)
+	time3 := strings.Replace(time2, " ", "", 1)
+	ticket = time3 + "_" + id
+	return ticket
 }

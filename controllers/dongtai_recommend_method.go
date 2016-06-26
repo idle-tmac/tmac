@@ -7,7 +7,7 @@ import (
         "tmac/models"
         "tmac/lib"
         "encoding/json"
-        _"strconv"
+        "strconv"
         _"github.com/astaxie/beego/cache"
         _"github.com/astaxie/beego/cache/redis" 
         _"log" 
@@ -49,19 +49,47 @@ func (c *DongtaiController) ReqRecommendCells(){
         flag := c.Ctx.Input.Param(":flag")
         num := c.Ctx.Input.Param(":num")
         ticket = c.Ctx.Input.Param(":ticket")
+        num1, _ := strconv.Atoi(c.Ctx.Input.Param(":num"))
      	fmt.Println(module)
      	fmt.Println(num)
      	fmt.Println(flag)
      	fmt.Println(ticket)
 	
+
+	
+
 	if ticket == "0" && flag == "0" {
-		//prefix := lib.GetTime(-60 * 30);
-		//imagePath := imageDir + "/" + module
-		//prefixImages, _ := lib.ListFile(imagePath,prefix);
-		//ticket = prefixImages[0]
-		ticket = "1234567_1"
+		time := lib.GetTime(-60 * 60 * 24 * 60);
+		ticket = models.GetTicket(time, module);
 	}
+	
+
+	ticketinfo := lib.GetInfoByTicket(ticket)
+	//time := ticketinfo[0]
+	id, _ := strconv.Atoi(ticketinfo[1])
+	
+	if flag == "1" {
+		id = id - num1 - 1;	
+	}	
 		
+
+	cells := []map[string]string{}
+        news := models.GetDongtaiInfo(id, module, num1)
+
+	/////////////////////way 1 crawler
+        for _, new := range news {
+		cell := map[string]string{}
+		cell["image_address"] = new["imagename"]
+		cell["image_content"] = new["newslink"]
+		cell["title"] = new["title"]
+		ticket := lib.MakeTicket(new["create_time"], new["id"])
+		cell["ticket"] = ticket
+		cells = append(cells, cell)
+	}
+
+
+
+        /*******************way 2 myself
 	curImages, err := lib.GetNextImages(models.Module_images[module], ticket, flag, num);
 	cells := []map[string]string{}
 	var filename string
@@ -73,7 +101,7 @@ func (c *DongtaiController) ReqRecommendCells(){
 		cell["ticket"] = filename
 		cells = append(cells, cell)	
         }
-
+	*/
         b, err := json.Marshal(cells)
         if err != nil {
                 fmt.Println("error", err)
