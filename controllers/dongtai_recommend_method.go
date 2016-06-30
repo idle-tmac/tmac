@@ -45,11 +45,16 @@ func (this *DongtaiController) Prepare() {
 
 func (c *DongtaiController) ReqRecommendCells(){
 	var ticket string
-	module := c.Ctx.Input.Param(":module")
-        flag := c.Ctx.Input.Param(":flag")
-        num := c.Ctx.Input.Param(":num")
-        ticket = c.Ctx.Input.Param(":ticket")
+	module := c.GetString("module")
+        flag := c.GetString("flag")
+        num := c.GetString("num")
+        ticket = c.GetString("ticket")
         num1, _ := strconv.Atoi(c.Ctx.Input.Param(":num"))
+	//module := c.Ctx.Input.Param(":module")
+        //flag := c.Ctx.Input.Param(":flag")
+        //num := c.Ctx.Input.Param(":num")
+        //ticket = c.Ctx.Input.Param(":ticket")
+        //num1, _ := strconv.Atoi(c.Ctx.Input.Param(":num"))
      	fmt.Println(module)
      	fmt.Println(num)
      	fmt.Println(flag)
@@ -110,8 +115,10 @@ func (c *DongtaiController) ReqRecommendCells(){
 	c.Ctx.WriteString(string(b));
 }
 func (c *DongtaiController) ReqRecommendCell() {
-	module := c.Ctx.Input.Param(":module")
-        imagename := c.Ctx.Input.Param(":imagename")
+	module := c.GetString("module")
+        imagename := c.GetString("imagename")
+	//module := c.Ctx.Input.Param(":module")
+        //imagename := c.Ctx.Input.Param(":imagename")
 
      	//fmt.Println(module)
 	

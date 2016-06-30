@@ -50,9 +50,9 @@ func (c *LeagueController) Test() {
 	
 }
 func (c *LeagueController) ReqinSchoolLeagueCells(){
-	schoolid := c.Ctx.Input.Param(":schoolid")
-        num := c.Ctx.Input.Param(":num")
-       	ticket := c.Ctx.Input.Param(":ticket")
+	schoolid := c.GetString("schoolid")
+        num := c.GetString("num")
+       	ticket := c.GetString("ticket")
      	fmt.Println(num)
      	fmt.Println(schoolid)
      	fmt.Println(ticket)
@@ -107,9 +107,12 @@ func (c *LeagueController) ReqinSchoolLeagueCells(){
 }
 
 func (c *LeagueController) ReqinSchoolLeagueCell(){
-	schoolid := c.Ctx.Input.Param(":schoolid")
-       	leagueid := c.Ctx.Input.Param(":leagueid")
+	schoolid := c.GetString("schoolid")
+       	leagueid := c.GetString("leagueid")
+	//schoolid := c.Ctx.Input.Param(":schoolid")
+       	//leagueid := c.Ctx.Input.Param(":leagueid")
      	fmt.Println(schoolid)
+     	fmt.Println(leagueid)
 	mydb := models.GetMysqlInstance()
 	db := mydb.GetDb()
 	qSql := "select team_fans from league where schoolid = ? and leagueid = ?"

@@ -4,8 +4,9 @@ import (
         _"tmac/common"
         _"tmac/lib"
         _"encoding/json"
-        _"strconv"
+        "strconv"
         _"github.com/astaxie/beego/cache"
+	"github.com/astaxie/beego"
         _"github.com/astaxie/beego/cache/redis" 
         _"log" 
         _"time"
@@ -61,4 +62,16 @@ func PullDating(msgPUsh string, c *DatingController) {
       fmt.Println(value["0111"].Uid)
       c.Ctx.WriteString(string(inputJson));
     */
+}
+
+func (c *DatingController) Test(){
+	module := c.Ctx.Input.Param(":module")
+	page, _ := c.GetInt("page")
+	dd, _ := c.GetInt("dd")
+	beego.Debug("Page", page)
+     	fmt.Println(module)
+     	fmt.Println(page)
+	b := module + ":" + strconv.Itoa(page) + strconv.Itoa(dd)
+      	c.Ctx.WriteString(b);
+	
 }

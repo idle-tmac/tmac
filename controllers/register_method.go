@@ -21,8 +21,12 @@ func init() {
 }
 
 func (c *RegisterController) RegisterDeal(){
-	phone := c.Ctx.Input.Param(":phone")
-	vc := c.Ctx.Input.Param(":verifycode")
+	phone := c.GetString("phone")
+	vc := c.GetString("verifycode")
+	//phone := c.Ctx.Input.Param(":phone")
+	//vc := c.Ctx.Input.Param(":verifycode")
+	
+
 	/*
 	mydb := models.GetMysqlInstance()
 	db := mydb.GetDb()
@@ -64,9 +68,12 @@ func (c *RegisterController) RegisterDeal(){
 }
 
 func (c *RegisterController) RegisterPasswdUpLoad(){
-	phone := c.Ctx.Input.Param(":phone")
-	passwd1 := c.Ctx.Input.Param(":passwd1")
-	passwd2 := c.Ctx.Input.Param(":passwd2")
+	phone := c.GetString("phone")
+	passwd1 := c.GetString("passwd1")
+	passwd2 := c.GetString("passwd2")
+	//phone := c.Ctx.Input.Param(":phone")
+	//passwd1 := c.Ctx.Input.Param(":passwd1")
+	//passwd2 := c.Ctx.Input.Param(":passwd2")
      	fmt.Println(phone)
      	fmt.Println(passwd1)
      	fmt.Println(passwd2)
