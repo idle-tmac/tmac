@@ -20,7 +20,7 @@ func init() {
 func (c *LoginController) LoginCheck(){
 	loginway := c.GetString("loginway")
 	loginvalue := c.GetString("loginid")
-        passwd := c.GetString(":passwd")
+        passwd := c.GetString("passwd")
 	//loginway := c.Ctx.Input.Param(":loginway")
 	//loginvalue := c.Ctx.Input.Param(":value")
         //passwd := c.Ctx.Input.Param(":passwd")
