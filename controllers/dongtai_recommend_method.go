@@ -49,14 +49,14 @@ func (c *DongtaiController) ReqRecommendCells(){
         flag := c.GetString("flag")
         num := c.GetString("num")
         ticket = c.GetString("ticket")
-        num1, _ := strconv.Atoi(c.Ctx.Input.Param(":num"))
+        num1, _ := strconv.Atoi(num)
 	//module := c.Ctx.Input.Param(":module")
         //flag := c.Ctx.Input.Param(":flag")
         //num := c.Ctx.Input.Param(":num")
         //ticket = c.Ctx.Input.Param(":ticket")
         //num1, _ := strconv.Atoi(c.Ctx.Input.Param(":num"))
      	fmt.Println(module)
-     	fmt.Println(num)
+     	fmt.Println(num1)
      	fmt.Println(flag)
      	fmt.Println(ticket)
 	
@@ -64,10 +64,9 @@ func (c *DongtaiController) ReqRecommendCells(){
 	
 
 	if ticket == "0" && flag == "0" {
-		time := lib.GetTime(-60 * 60 * 24 * 60);
+		time := lib.GetTime(-60 * 60 * 24 * 90);
 		ticket = models.GetTicket(time, module);
 	}
-	
 
 	ticketinfo := lib.GetInfoByTicket(ticket)
 	//time := ticketinfo[0]
@@ -80,7 +79,6 @@ func (c *DongtaiController) ReqRecommendCells(){
 
 	cells := []map[string]string{}
         news := models.GetDongtaiInfo(id, module, num1)
-
 	/////////////////////way 1 crawler
         for _, new := range news {
 		cell := map[string]string{}
