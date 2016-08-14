@@ -56,7 +56,7 @@ func (c *LeagueController) ReqinSchoolLeagueCells(){
      	fmt.Println(num)
      	fmt.Println(schoolid)
      	fmt.Println(ticket)
-     	fmt.Println("----------\n")
+
 	mydb := models.GetMysqlInstance()
 	db := mydb.GetDb()
 	qSql := "select * from league where schoolid = ? and id > ? limit " + num
@@ -90,6 +90,7 @@ func (c *LeagueController) ReqinSchoolLeagueCells(){
 		cell["league_poster_address"] = imageServer + "/" + beego.AppConfig.String("leaguePosterDir") + "/" + strconv.Itoa(posterid) + ".jpg"
 		cell["league_name"] =  name 
 		cell["league_team_num"] = strconv.Itoa(team_num)
+		cell["league_fans_num"] = strconv.Itoa(team_fans)
 		cell["league_type"] = league_type
 		cell["league_start_date"] = start_time
 		cell["league_end_date"] = end_time
@@ -107,34 +108,51 @@ func (c *LeagueController) ReqinSchoolLeagueCells(){
 }
 
 func (c *LeagueController) ReqinSchoolLeagueCell(){
-	schoolid := c.GetString("schoolid")
-       	leagueid := c.GetString("leagueid")
-	//schoolid := c.Ctx.Input.Param(":schoolid")
-       	//leagueid := c.Ctx.Input.Param(":leagueid")
-     	fmt.Println(schoolid)
-     	fmt.Println(leagueid)
-	mydb := models.GetMysqlInstance()
-	db := mydb.GetDb()
-	qSql := "select team_fans from league where schoolid = ? and leagueid = ?"
-	rows, err := db.Query(qSql, schoolid, leagueid)
-	if err != nil {
-		log.Println(err)
-	}
- 
-	defer rows.Close()
-	var team_fans int
-	cell := map[string]string{}
-	//cells := []map[string]string{}
-	for rows.Next() {
-		err := rows.Scan(&team_fans)
-		if err != nil {
-			log.Fatal(err)
-		}
+	schoolid0 := c.GetString("schoolid")
+       	leagueid0 := c.GetString("leagueid")
+
+	schoolid, _ := strconv.Atoi(schoolid0);
+	leagueid, _ := strconv.Atoi(leagueid0);
+
+	matches := models.GetMatchInfo(schoolid, leagueid)
+	cells := []map[string]string{}
+        for _, match := range matches {
+	 	cell := map[string]string{}
+		cell["matchid"] = match["matchid"]
+		cell["match_time"] = match["match_time"]
+		cell["match_address"] = match["match_address"]
+		cell["teamid1"] = match["teamid1"]
+		cell["teamid2"] = match["teamid2"]
+		cell["match_time"] = match["match_time"]
+		cell["match_address"] = match["match_address"]
+		cell["is_end"] = match["status"]
+
+		team_cells := []map[string]string{}
+	 	team_cell := map[string]string{}
+
+		teamid1, _ := strconv.Atoi(match["teamid1"]);
+		teamInfo := models.GetTeamInfo(teamid1)
+		team_cell["team_id"] = teamInfo["team_id"]
+		team_cell["team_name"] = teamInfo["team_name"]
+		team_cell["team_logo_address"] = imageServer + "/" + beego.AppConfig.String("leagueLogoDir") + "/" + teamInfo["logoid"] + ".jpg"
+		team_cells = append(team_cells,team_cell)
 		
-		cell["league_fans_num"]	= strconv.Itoa(team_fans)
-	}
-        
-	b, err := json.Marshal(cell)
+	 	team_cell1 := map[string]string{}
+		teamid2, _ := strconv.Atoi(match["teamid2"]);
+		teamInfo = models.GetTeamInfo(teamid2)
+		team_cell1["team_id"] = teamInfo["team_id"]
+		team_cell1["team_name"] = teamInfo["team_name"]
+		team_cell1["team_logo_address"] = imageServer + "/" + beego.AppConfig.String("leagueLogoDir") + "/" + teamInfo["logoid"] + ".jpg"
+		team_cells = append(team_cells,team_cell1)
+        	teams, err := json.Marshal(team_cells)
+        	if err != nil {
+                	fmt.Println("error", err)
+		}
+		cell["matches"] = string(teams)
+		cells = append(cells, cell)	
+        }
+
+        b, err := json.Marshal(cells)
         if err != nil {
                 fmt.Println("error", err)
         }

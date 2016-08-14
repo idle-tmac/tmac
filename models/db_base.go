@@ -17,7 +17,7 @@ type MysqlBase struct {
 func GetMysqlInstance() (*MysqlBase){
 	if mysqlBase == nil ||  mysqlBase.DB == nil {
 		fmt.Println("haha")
-		db, err := sql.Open("mysql", "root:admin@/tmac")
+		db, err := sql.Open("mysql", "root:admin@/tmac?charset=utf8")
 		if err != nil {
 			log.Fatalf("Open database error: %s\n", err)
 		}
