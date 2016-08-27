@@ -135,6 +135,7 @@ func (c *LeagueController) ReqinSchoolLeagueCell(){
 		team_cell["team_id"] = teamInfo["team_id"]
 		team_cell["team_name"] = teamInfo["team_name"]
 		team_cell["team_logo_address"] = imageServer + "/" + beego.AppConfig.String("leagueLogoDir") + "/" + teamInfo["logoid"] + ".jpg"
+		team_cell["is_home_team"] = "1"
 		team_cells = append(team_cells,team_cell)
 		
 	 	team_cell1 := map[string]string{}
@@ -143,6 +144,7 @@ func (c *LeagueController) ReqinSchoolLeagueCell(){
 		team_cell1["team_id"] = teamInfo["team_id"]
 		team_cell1["team_name"] = teamInfo["team_name"]
 		team_cell1["team_logo_address"] = imageServer + "/" + beego.AppConfig.String("leagueLogoDir") + "/" + teamInfo["logoid"] + ".jpg"
+		team_cell1["is_home_team"] = "0"
 		team_cells = append(team_cells,team_cell1)
         	teams, err := json.Marshal(team_cells)
         	if err != nil {
