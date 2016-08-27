@@ -28,11 +28,14 @@ func init() {
     beego.Router("/dongtai/cells", &controllers.DongtaiController{}, "get:ReqRecommendCells")
     //beego.Router("/dongtai/cells?module=xxx&flag=xxx&num=xxx&ticket=xxx", &controllers.DongtaiController{}, "get:ReqRecommendCells")
 
-
     //league route
     beego.Router("/league/inschool/cells", &controllers.LeagueController{}, "get:ReqinSchoolLeagueCells")
     //beego.Router("/league/inschool/cells?schoolid=xxx&num=xxx&ticket=xxx", &controllers.LeagueController{}, "get:ReqinSchoolLeagueCells")
     beego.Router("/league/inschool/cell", &controllers.LeagueController{}, "get:ReqinSchoolLeagueCell")
     //beego.Router("/league/inschool/cell?schoolid=xxx&leagueid=xxx", &controllers.LeagueController{}, "get:ReqinSchoolLeagueCell")
+    beego.Router("/league/inschool/match_result", &controllers.LeagueController{}, "get:ReqinSchoolMatchResult")
+    //beego.Router("/league/inschool/match_result?matchid=xxx", &controllers.LeagueController{}, "get:ReqinSchoolMatchResult")
+    //beego.Router("/league/inschool/match_self_result", &controllers.LeagueController{}, "get:ReqinSchoolMatchSelfResult")
+    //beego.Router("/league/inschool/match_result?matchid=xxx", &controllers.LeagueController{}, "get:ReqinSchoolMatchResult")
    
 }

@@ -161,3 +161,20 @@ func (c *LeagueController) ReqinSchoolLeagueCell(){
 
 	c.Ctx.WriteString(string(b));
 }
+
+func (c *LeagueController)ReqinSchoolMatchResult(){
+     	fmt.Println("-----------")
+	matchid := c.GetString("matchid")
+     	fmt.Println(matchid)
+	cells := models.GetMatchResultInfo(matchid);
+	        
+	b, err := json.Marshal(cells)
+        if err != nil {
+                fmt.Println("error", err)
+        }
+	
+	c.Ctx.WriteString(string(b));
+	//c.Ctx.WriteString("helloworld");
+}
+
+
